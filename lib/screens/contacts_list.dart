@@ -1,9 +1,16 @@
-import 'package:bytebank_final/database/app_database.dart';
 import 'package:bytebank_final/models/contact_model.dart';
 import 'package:bytebank_final/screens/contact_form.dart';
+import 'package:bytebank_final/database/dao/contact_dao.dart';
 import 'package:flutter/material.dart';
 
-class ContactsList extends StatelessWidget {
+class ContactsList extends StatefulWidget {
+  @override
+  _ContactsListState createState() => _ContactsListState();
+}
+
+class _ContactsListState extends State<ContactsList> {
+  final ContactDao _dao = ContactDao();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -12,9 +19,7 @@ class ContactsList extends StatelessWidget {
       ),
       body: FutureBuilder<List<Contact>>(
         initialData: List(),
-        future: Future.delayed(Duration(seconds: 1)).then(
-          (value) => findAll(),
-        ),
+        future: _dao.findAll(),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.none:
@@ -26,7 +31,7 @@ class ContactsList extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     CircularProgressIndicator(),
-                    Text('Carregando'),
+                    Text('Loading')
                   ],
                 ),
               );
@@ -38,13 +43,13 @@ class ContactsList extends StatelessWidget {
               return ListView.builder(
                 itemBuilder: (context, index) {
                   final Contact contact = contacts[index];
-                  return _ContactsItem(contact);
+                  return _ContactItem(contact);
                 },
                 itemCount: contacts.length,
               );
               break;
           }
-          return Text('Erro');
+          return Text('Unknown error');
         },
       ),
       floatingActionButton: FloatingActionButton(
@@ -56,9 +61,7 @@ class ContactsList extends StatelessWidget {
                 ),
               )
               .then(
-                (newContact) => debugPrint(
-                  newContact.toString(),
-                ),
+                (value) => setState(() {}),
               );
         },
         child: Icon(
@@ -69,10 +72,10 @@ class ContactsList extends StatelessWidget {
   }
 }
 
-class _ContactsItem extends StatelessWidget {
+class _ContactItem extends StatelessWidget {
   final Contact contact;
 
-  const _ContactsItem(this.contact);
+  _ContactItem(this.contact);
 
   @override
   Widget build(BuildContext context) {
