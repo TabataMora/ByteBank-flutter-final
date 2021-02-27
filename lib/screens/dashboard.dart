@@ -1,5 +1,7 @@
 import 'package:bytebank_final/screens/contacts_list.dart';
+import 'package:bytebank_final/screens/transferfeed_list.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 class Dashboard extends StatelessWidget {
   @override
@@ -18,21 +20,27 @@ class Dashboard extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Image.asset('images/bytebank_logo.png'),
           ),
-          Row(
-            children: [
-              _FeatureItem(
-                'Transfer',
-                Icons.monetization_on,
-                onClick: () {
-                  _showContactsList(context);
-                },
-              ),
-              _FeatureItem(
-                'Transaction Feed',
-                Icons.description,
-                onClick: null,
-              ),
-            ],
+          Container(
+            height: 120,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: [
+                _FeatureItem(
+                  'Transfer',
+                  Icons.monetization_on,
+                  onClick: () {
+                    _showContactsList(context);
+                  },
+                ),
+                _FeatureItem(
+                  'Transaction Feed',
+                  Icons.description,
+                  onClick: () {
+                    _showTransactionList(context);
+                  },
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -43,6 +51,14 @@ class Dashboard extends StatelessWidget {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => ContactsList(),
+      ),
+    );
+  }
+
+  void _showTransactionList(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => TransactionsList(),
       ),
     );
   }
