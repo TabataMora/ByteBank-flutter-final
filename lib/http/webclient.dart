@@ -23,8 +23,11 @@ Future<List<Transaction>> findAll() async {
     interceptors: [LoggingInterceptor()],
   );
   final Response response =
-      await client.get('http://192.168.0.14:8080/transactions');
+      await client.get('localhost:8080/transactions').timeout(
+            Duration(seconds: 5),
+          );
   final List<dynamic> decodedJson = jsonDecode(response.body);
+  // ignore: deprecated_member_use
   final List<Transaction> transactions = List();
   for (Map<String, dynamic> transactionJson in decodedJson) {
     final Map<String, dynamic> contactJson = transactionJson['contact'];

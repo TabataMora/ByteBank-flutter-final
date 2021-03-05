@@ -19,6 +19,7 @@ class _ContactsListState extends State<ContactsList> {
         title: Text('Transfer'),
       ),
       body: FutureBuilder<List<Contact>>(
+        // ignore: deprecated_member_use
         initialData: List(),
         future: _dao.findAll(),
         builder: (context, snapshot) {

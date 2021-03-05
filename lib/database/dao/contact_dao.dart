@@ -33,6 +33,7 @@ class ContactDao {
   }
 
   List<Contact> _toList(List<Map<String, dynamic>> result) {
+    // ignore: deprecated_member_use
     final List<Contact> contacts = List();
     for (Map<String, dynamic> row in result) {
       final Contact contact = Contact(
